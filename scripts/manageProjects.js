@@ -196,10 +196,10 @@ async function addNewTask(
       for (let j = 0; j < deliveryArray.length; j++) {
         if (deliveryArray[j][0] == projectId) {
           // console.log("here",deliveryArray[i][4], teamArray[i][0]);
-              if (deliveryArray[j][4] == teamArray[i][0]) {
-                selectOption[countTask - 1].appendChild(option1);
-                break;
-              }
+          if (deliveryArray[j][4] == teamArray[i][0]) {
+            selectOption[countTask - 1].appendChild(option1);
+            break;
+          }
         }
       }
 
@@ -907,6 +907,8 @@ async function viewFinance(id) {
   content.setAttribute("class", "mb-2");
   content.innerHTML = " ";
 
+  var er = 0;
+
   var params = {
     spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
     // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
@@ -932,6 +934,8 @@ async function viewFinance(id) {
       feesRate.setAttribute("class", "mb-2");
       feesRate.innerHTML = "FeesRate: " + projectArray[i][8] + "  ";
 
+      er = projectArray[i][9];
+
       let expectedRevenue = document.createElement("h5");
       expectedRevenue.setAttribute("class", "mt-2");
       expectedRevenue.setAttribute("class", "mb-2");
@@ -943,6 +947,46 @@ async function viewFinance(id) {
       flag.appendChild(expectedRevenue);
     }
   }
+
+  var totalCost = 0;
+
+  // loop over the deliveryArray
+  for (let i = 0; i < deliveryArray.length; i++) {
+    if (deliveryArray[i][0] == id) {
+      if (deliveryArray[i][12].toLowerCase() == "paid") {
+        totalCost += parseInt(deliveryArray[i][11]);
+      } else {
+        let x = parseInt(deliveryArray[i][6]);
+
+        // deliveryArray[i][7] is of kind 20%. remove the % sign
+        let y = parseInt(deliveryArray[i][7].substring(0, deliveryArray[i][7].length - 1));
+
+        // calculate the cost
+        let cost = x * y / 100;
+
+
+        totalCost += x + cost;
+      }
+    }
+  }
+
+  let teamCost = document.createElement("h5");
+  teamCost.setAttribute("class", "mt-2");
+  teamCost.setAttribute("class", "mb-2");
+  teamCost.innerHTML = "Team Cost: " + totalCost + "  ";
+
+  let tcs = (totalCost / er) * 100;
+
+  // round the cost to 2 decimal places
+  tcs = Math.round(tcs * 100) / 100;
+
+  let teamCostShare = document.createElement("h5");
+  teamCostShare.setAttribute("class", "mt-2");
+  teamCostShare.setAttribute("class", "mb-2");
+  teamCostShare.innerHTML = "Team Cost Share: " + tcs + "%  ";
+
+  flag.appendChild(teamCost);
+  flag.appendChild(teamCostShare);
 
   var modal = document.getElementById("myModal");
   modal.style.display = "block";
