@@ -12,15 +12,16 @@ async function getAllSheets() {
   request = request.result.values;
 
   for (let i = 0; i < request.length; i++) {
-    if (request[i][2].toLowerCase() == "free") {
-      teamArray.push([request[i][0], request[i][2]]);
-    }
+    // if (request[i][2].toLowerCase() == "free" || request[i][2].toLowerCase() == "occupied") {
+    teamArray.push([request[i][0], request[i][2]]);
+    // }
   }
   teamArray.sort();
 }
 
 let idArray = [];
-function addNewTask(
+async function addNewTask(
+  projectId,
   id,
   Id = "",
   taskName = "",
@@ -171,8 +172,17 @@ function addNewTask(
     taskIdNumber.innerHTML = Id;
   }
 
+  // for (let i = 0; i < deliveryArray.length; i++) {
+  //   if (deliveryArray[i][0] == projectId) {
+  //     deliveryArray[i][3] = projectName;
+  //     deliveryArray[i][7] = projectValue;
+  //   }
+  // }
+
+
   let selectOption = cardbody[0].getElementsByTagName("select");
   for (let i = 0; i < teamArray.length; i++) {
+
     let option1 = document.createElement("option");
     option1.setAttribute("value", teamArray[i][0]);
     option1.innerHTML = teamArray[i][0];
@@ -181,8 +191,24 @@ function addNewTask(
       option1.setAttribute("selected", "selected");
     }
 
-    if (teamArray[i][1] != "Unavailable")
+    if (teamArray[i][1].toLowerCase() == "unavailable") {
+
+      for (let j = 0; j < deliveryArray.length; j++) {
+        if (deliveryArray[j][0] == projectId) {
+          // console.log("here",deliveryArray[i][4], teamArray[i][0]);
+              if (deliveryArray[j][4] == teamArray[i][0]) {
+                selectOption[countTask - 1].appendChild(option1);
+                break;
+              }
+        }
+      }
+
+    } else {
       selectOption[countTask - 1].appendChild(option1);
+    }
+
+    // if (teamArray[i][1].tolowercase() != "unavailable")
+    //   selectOption[countTask - 1].appendChild(option1);
   }
 
   taskNameInput.setAttribute("value", taskName);
@@ -331,7 +357,7 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
 
   if (projectName == "ProjectBlank") {
     let elem = document.getElementById("accordion" + count);
-    addNewTask(count, "", "", "", "", "", "", "", "");
+    addNewTask(projectId, count, "", "", "", "", "", "", "", "");
     elem.style.visibility = "hidden";
   }
 
@@ -339,6 +365,7 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
     for (let i = 0; i < deliveryArray.length; i++) {
       if (deliveryArray[i][0] == projectId && projectId != 0) {
         addNewTask(
+          projectId,
           count,
           deliveryArray[i][2],
           deliveryArray[i][3],
@@ -349,7 +376,6 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
           deliveryArray[i][8],
           deliveryArray[i][12]
         );
-        // console.log(projectId);
       }
     }
   }
