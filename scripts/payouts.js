@@ -187,14 +187,24 @@ async function updateTracker(id) {
             arr.push(task[3].innerText);
             arr.push(date);
 
-            let task1 = tasks[j].getElementsByTagName("select");
+            let task1 = tasks[j].getElementsByTagName("input");
 
-            console.log("task1: ", task1)
+            // console.log("task1: ", task1)
+
+
 
             arr.push(task1[0].value);
-            // arr.push(task1[1].value);
+            arr.push(task1[1].value);
+
             arr.push(task[4].innerText);
-            // arr.push(task1[2].value);
+
+            arr.push("")
+
+            arr.push(task1[2].value);
+            arr.push(task1[3].value);
+            arr.push(task1[4].value);
+            arr.push(task1[5].value);
+            arr.push(task1[6].value);
 
             updateArray.push(arr);
         }
@@ -260,6 +270,8 @@ async function updateTracker(id) {
         }
     }
 
+
+
     var params1 = {
         spreadsheetId: '1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA',
         range: 'Delivery!A2:Z1000',
@@ -299,6 +311,14 @@ async function updateTracker(id) {
             a = a[0].innerText;
             temp.push(a);
             temp.push("Updated");
+
+            let task1 = task[j].getElementsByTagName("input");
+            temp.push(task1[2].value);
+            temp.push(task1[3].value);
+            temp.push(task1[4].value);
+            temp.push(task1[5].value);
+            temp.push(task1[6].value);
+
             array.push(temp);
         }
     }
@@ -310,11 +330,24 @@ async function updateTracker(id) {
                 let ArrayOne = [];
                 let ArrayTwo = [];
                 ArrayOne.push(array[i][2]);
+
+                ArrayOne.push(deliveryArray[j][15]);
+                ArrayOne.push(deliveryArray[j][16]);
+
+                ArrayOne.push(array[i][3]);
+                ArrayOne.push(array[i][4]);
+                ArrayOne.push(array[i][5]);
+                ArrayOne.push(array[i][6]);
+                ArrayOne.push(array[i][7]);
+              
                 ArrayTwo.push(ArrayOne);
 
                 let rangeStr = "Delivery!O";
                 let num = j + 2;
                 rangeStr += num;
+
+                console.log("rangeStr: " + rangeStr);
+
                 var params = {
                     spreadsheetId: '1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA',
                     range: rangeStr,
@@ -334,7 +367,7 @@ async function updateTracker(id) {
     updateButton.removeAttribute("onclick", "updateTracker(id)");
     updateButton.style.backgroundColor = "#f1f1f1";
     updateButton.style.borderColor = "black";
-    updateButton.style.color = "black";
+    updateButton.style.color = "bla     ck";
     updateButton.style.cursor = "default";
     updateButton.style.boxShadow = "none";
     updateButton.innerHTML = "Updated";
@@ -648,37 +681,56 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
                 let feedbackDiv = document.createElement("div");
                 feedbackDiv.setAttribute("class", "feedback");
-                let feedbackContent = document.createElement("select");
-                // feedbackContent.setAttribute("type","text");
-                feedbackContent.setAttribute("class", "custom-select");
 
-                let option1 = document.createElement("option");
-                option1.innerHTML = 'S';
-                // option1.setAttribute(selected, "selected");
-                feedbackContent.appendChild(option1);
+                let feedbackContent1 = document.createElement("input");
+                feedbackContent1.setAttribute("type", "text");
+                feedbackContent1.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent1.setAttribute("placeholder", "S");
+                feedbackContent1.setAttribute("id", "feedbackS" + count + projectsCount + tasksCount);
+                if (addTaskArray[j][17] != undefined)
+                    feedbackContent1.value = addTaskArray[j][17];
 
-                let option2 = document.createElement("option");
-                option2.innerHTML = 'Q';
-                feedbackContent.appendChild(option2);
+                let feedbackContent2 = document.createElement("input");
+                feedbackContent2.setAttribute("type", "text");
+                feedbackContent2.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent2.setAttribute("placeholder", "Q");
+                feedbackContent2.setAttribute("id", "feedbackQ" + count + projectsCount + tasksCount);
+                if (addTaskArray[j][18] != undefined)
+                    feedbackContent2.value = addTaskArray[j][18];
 
-                let option3 = document.createElement("option");
-                option3.innerHTML = 'C';
-                feedbackContent.appendChild(option3);
+                let feedbackContent3 = document.createElement("input");
+                feedbackContent3.setAttribute("type", "text");
+                feedbackContent3.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent3.setAttribute("placeholder", "C");
+                feedbackContent3.setAttribute("id", "feedbackC" + count + projectsCount + tasksCount);
+                if (addTaskArray[j][19] != undefined)
+                    feedbackContent3.value = addTaskArray[j][19];
 
-                let option4 = document.createElement("option");
-                option4.innerHTML = 'O';
-                feedbackContent.appendChild(option4);
+                let feedbackContent4 = document.createElement("input");
+                feedbackContent4.setAttribute("type", "text");
+                feedbackContent4.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent4.setAttribute("placeholder", "O");
+                feedbackContent4.setAttribute("id", "feedbackO" + count + projectsCount + tasksCount);
+                if (addTaskArray[j][20] != undefined)
+                    feedbackContent4.value = addTaskArray[j][20];
 
-                let option5 = document.createElement("option");
-                option5.innerHTML = 'D';
-                feedbackContent.appendChild(option5);
+                let feedbackContent5 = document.createElement("input");
+                feedbackContent5.setAttribute("type", "text");
+                feedbackContent5.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent5.setAttribute("placeholder", "D");
+                feedbackContent5.setAttribute("id", "feedbackD" + count + projectsCount + tasksCount);
+                if (addTaskArray[j][21] != undefined)
+                    feedbackContent5.value = addTaskArray[j][21];
 
-                feedbackContent.setAttribute("id", "feedback" + count + projectsCount + tasksCount);
-                if (addTaskArray[j][7] != undefined)
-                    feedbackContent.selectedIndex = addTaskArray[j][7];
-                else
-                    feedbackContent.value = "";
-                feedbackDiv.appendChild(feedbackContent);
+                // if (addTaskArray[j][7] != undefined)
+                //     feedbackContent.selectedIndex = addTaskArray[j][7];
+                // else
+                //     feedbackContent.value = "";
+                feedbackDiv.appendChild(feedbackContent1);
+                feedbackDiv.appendChild(feedbackContent2);
+                feedbackDiv.appendChild(feedbackContent3);
+                feedbackDiv.appendChild(feedbackContent4);
+                feedbackDiv.appendChild(feedbackContent5);
 
                 taskDiv.appendChild(taskIdDiv);
                 taskDiv.appendChild(completedTaskDiv);
