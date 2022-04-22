@@ -257,7 +257,9 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
                   </h5>
               </a>
               <div class="col-2">   
-                  
+              <button class="btn manageProjectAddTaskButton mr-3" id="` +
+    projectId +
+    `" onclick="editProjectConfirm(id)">Edit Project</button>
               </div>
               <div class="col-3 manageProjectsToggle d-flex">
                   <h6 class="ml-4 ongoingText">
@@ -869,8 +871,8 @@ async function updateSheet() {
 }
 
 async function viewFinance(id) {
-  let headerText= document.getElementById("modal-header-text");
-  headerText.innerHTML="Project Details" + " ";
+  let headerText = document.getElementById("modal-header-text");
+  headerText.innerHTML = "Project Details" + " ";
   let flag = document.getElementById("modalContent");
   flag.innerHTML = "";
   let content = document.createElement("h5");
@@ -878,7 +880,7 @@ async function viewFinance(id) {
   content.setAttribute("class", "mt-2");
   content.setAttribute("class", "mb-2");
   content.innerHTML = " ";
-  
+
   var params = {
     spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
     // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
@@ -892,13 +894,13 @@ async function viewFinance(id) {
       let projectName = document.createElement("h5");
       projectName.setAttribute("class", "mt-2");
       projectName.setAttribute("class", "mb-2");
-      projectName.innerHTML = "Project Name: " + projectArray[i][3] + "  " ;
-      
+      projectName.innerHTML = "Project Name: " + projectArray[i][3] + "  ";
+
       let projectValue = document.createElement("h5");
       projectValue.setAttribute("class", "mt-2");
       projectValue.setAttribute("class", "mb-2");
       projectValue.innerHTML = "Project Value: " + projectArray[i][7] + "  ";
-      
+
       let feesRate = document.createElement("h5");
       feesRate.setAttribute("class", "mt-2");
       feesRate.setAttribute("class", "mb-2");
@@ -908,7 +910,7 @@ async function viewFinance(id) {
       expectedRevenue.setAttribute("class", "mt-2");
       expectedRevenue.setAttribute("class", "mb-2");
       expectedRevenue.innerHTML = "ExpectedRevenue: " + projectArray[i][9] + "  ";
-      
+
       flag.appendChild(projectName);
       flag.appendChild(projectValue);
       flag.appendChild(feesRate);
@@ -918,6 +920,115 @@ async function viewFinance(id) {
 
   var modal = document.getElementById("myModal");
   modal.style.display = "block";
+}
+
+async function editProjectConfirm(projectId) {
+
+  let headerText = document.getElementById("modal-header-text");
+  headerText.innerHTML = "update project details" + " ";
+  let flag = document.getElementById("modalContent");
+  flag.innerHTML = "";
+
+  let params = {
+    spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
+    // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
+    range: "Projects!A2:Z1000",
+  };
+  var request = await gapi.client.sheets.spreadsheets.values.get(params);
+  var projectArray = request.result.values;
+
+
+  let formDiv = document.createElement("div");
+  formDiv.setAttribute("class", "form-group");
+
+  let projectName = document.createElement("label");
+  projectName.setAttribute("for", "projectName");
+  projectName.setAttribute("class", "mt-4");
+  projectName.innerHTML = "Project Name: ";
+
+  let projectNameInput = document.createElement("input");
+  projectNameInput.setAttribute("type", "text");
+  projectNameInput.setAttribute("class", "form-control");
+  projectNameInput.setAttribute("id", "projectName");
+  projectNameInput.setAttribute("placeholder", "Enter Project Name");
+
+  let projectValue = document.createElement("label");
+  projectValue.setAttribute("for", "projectValue");
+  projectValue.setAttribute("class", "mt-4");
+  projectValue.innerHTML = "Project Value: ";
+
+  let projectValueInput = document.createElement("input");
+  projectValueInput.setAttribute("type", "text");
+  projectValueInput.setAttribute("class", "form-control");
+  projectValueInput.setAttribute("id", "projectValue");
+  projectValueInput.setAttribute("placeholder", "Enter Project Value");
+
+  for (let i = 0; i < projectArray.length; i++) {
+    if (projectArray[i][0] == parseInt(projectId)) {
+      projectNameInput.value = projectArray[i][3];
+      projectValueInput.value = projectArray[i][7];
+    }
+  }
+
+  formDiv.appendChild(projectName);
+  formDiv.appendChild(projectNameInput);
+  formDiv.appendChild(projectValue);
+  formDiv.appendChild(projectValueInput);
+
+  flag.appendChild(formDiv);
+
+  let updateButton = document.createElement("button");
+  updateButton.setAttribute("class", "btn btn-primary mt-2 mb-4");
+  updateButton.setAttribute("onclick", "editProject(" + projectId + ")");
+  updateButton.setAttribute("style", "display: inline");
+  updateButton.innerHTML = "update";
+
+  flag.appendChild(updateButton);
+
+  var modal = document.getElementById("myModal");
+  modal.style.display = "block";
+}
+
+async function editProject(projectId) {
+
+  let projectName = document.getElementById("projectName").value;
+  let projectValue = document.getElementById("projectValue").value;
+
+  let params = {
+    spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
+    // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
+    range: "Projects!A2:Z1000",
+  };
+  var request = await gapi.client.sheets.spreadsheets.values.get(params);
+  var projectArray = request.result.values;
+
+  for (let i = 0; i < projectArray.length; i++) {
+    if (projectArray[i][0] == projectId) {
+      projectArray[i][3] = projectName;
+      projectArray[i][7] = projectValue;
+    }
+  }
+
+  var params1 = {
+    spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
+    // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
+    range: "Projects!A2",
+    valueInputOption: "USER_ENTERED",
+  };
+
+  var valueRangeBody = {
+    "majorDimension": "ROWS",
+    "values": projectArray,
+  };
+
+  var request1 = await gapi.client.sheets.spreadsheets.values.update(
+    params1,
+    valueRangeBody,
+  );
+
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
+
 }
 
 async function deleteTask(id) {
@@ -1023,9 +1134,9 @@ function closeModal1(id) {
 }
 
 function confirmDelete(id) {
-  
-  let headerText= document.getElementById("modal-header-text");
-  headerText.innerHTML="Confirmation" + " ";
+
+  let headerText = document.getElementById("modal-header-text");
+  headerText.innerHTML = "Confirmation" + " ";
   let elem = document.getElementById(id);
   let divElement = elem.parentElement;
 
