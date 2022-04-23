@@ -176,7 +176,7 @@ async function feesRateCalculation() {
     let projValue = document.getElementById("projectValue").value;
     projValue = parseInt(projValue);
     let exchangeRate = document.getElementById("exchangeRate").value;
-    exchangeRate = parseInt(exchangeRate);
+    exchangeRate = parseFloat(exchangeRate);
 
     let num = 0.0;
     num += (projValue*(100.0 - feeRate)*exchangeRate)/100.0;

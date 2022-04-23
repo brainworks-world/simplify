@@ -569,6 +569,7 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
             let feedbackDiv = document.createElement("div");
             feedbackDiv.setAttribute("class", "feedback");
+            
             let feedbackContent = document.createElement("h6");
             feedbackContent.innerHTML += "Feedback";
             feedbackDiv.appendChild(feedbackContent);
@@ -680,11 +681,13 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 totalPayDiv.appendChild(totalPayContent);
 
                 let feedbackDiv = document.createElement("div");
-                feedbackDiv.setAttribute("class", "feedback");
+                feedbackDiv.setAttribute("class", "feedback row align-items-center mt-1");
 
                 let feedbackContent1 = document.createElement("input");
                 feedbackContent1.setAttribute("type", "text");
-                feedbackContent1.setAttribute("class", "form-control mt-1 mr-3");
+                
+                feedbackContent1.setAttribute("class", "form-control mt-1 mr-2");
+                feedbackContent1.setAttribute("style", "width:18%");
                 feedbackContent1.setAttribute("placeholder", "S");
                 feedbackContent1.setAttribute("id", "feedbackS" + count + projectsCount + tasksCount);
                 if (addTaskArray[j][17] != undefined)
@@ -692,7 +695,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
                 let feedbackContent2 = document.createElement("input");
                 feedbackContent2.setAttribute("type", "text");
-                feedbackContent2.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent2.setAttribute("class", "form-control mt-1 mr-2");
+                feedbackContent2.setAttribute("style", "width:18%");
                 feedbackContent2.setAttribute("placeholder", "Q");
                 feedbackContent2.setAttribute("id", "feedbackQ" + count + projectsCount + tasksCount);
                 if (addTaskArray[j][18] != undefined)
@@ -700,7 +704,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
                 let feedbackContent3 = document.createElement("input");
                 feedbackContent3.setAttribute("type", "text");
-                feedbackContent3.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent3.setAttribute("class", "form-control mt-1 mr-2");
+                feedbackContent3.setAttribute("style", "width:18%");
                 feedbackContent3.setAttribute("placeholder", "C");
                 feedbackContent3.setAttribute("id", "feedbackC" + count + projectsCount + tasksCount);
                 if (addTaskArray[j][19] != undefined)
@@ -708,7 +713,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
                 let feedbackContent4 = document.createElement("input");
                 feedbackContent4.setAttribute("type", "text");
-                feedbackContent4.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent4.setAttribute("class", "form-control mt-1 mr-2");
+                feedbackContent4.setAttribute("style", "width:18%");
                 feedbackContent4.setAttribute("placeholder", "O");
                 feedbackContent4.setAttribute("id", "feedbackO" + count + projectsCount + tasksCount);
                 if (addTaskArray[j][20] != undefined)
@@ -716,7 +722,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
                 let feedbackContent5 = document.createElement("input");
                 feedbackContent5.setAttribute("type", "text");
-                feedbackContent5.setAttribute("class", "form-control mt-1 mr-3");
+                feedbackContent5.setAttribute("class", "form-control mt-1");
+                feedbackContent5.setAttribute("style", "width:18%");
                 feedbackContent5.setAttribute("placeholder", "D");
                 feedbackContent5.setAttribute("id", "feedbackD" + count + projectsCount + tasksCount);
                 if (addTaskArray[j][21] != undefined)

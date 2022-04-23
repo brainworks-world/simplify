@@ -963,6 +963,7 @@ async function viewFinance(id) {
       expectedRevenue.innerHTML = "ExpectedRevenue: ₹" + projectArray[i][9] + "  ";
 
       flag.appendChild(projectName);
+      flag.appendChild(clientName);
       flag.appendChild(projectValue);
       flag.appendChild(feesRate);
       flag.appendChild(expectedRevenue);
@@ -1203,6 +1204,7 @@ async function feesRateCalculation() {
       totalProjectValue += parseInt(projectArray[i][7]);
     }
   }
+  totalProjectValue=totalProjectValue-projectValue;
   var totalProjectValueBofore = 0;
   totalProjectValueBofore += totalProjectValue;
   totalProjectValue += parseInt(projectValue);
@@ -1240,7 +1242,7 @@ async function feesRateCalculation() {
   let projValue = document.getElementById("projectValue").value;
   projValue = parseInt(projValue);
   let exchangeRate = document.getElementById("exchangeRate").value;
-  exchangeRate = parseInt(exchangeRate);
+  exchangeRate = parseFloat(exchangeRate);
 
   let num = 0.0;
   num += (projValue * (100.0 - feeRate) * exchangeRate) / 100.0;
@@ -1349,7 +1351,7 @@ async function deleteTask(id) {
 
   setTimeout(function () {
     location.reload();
-  }, 2000);
+  }, 1000);
 }
 
 var modal = document.getElementById("myModal");
