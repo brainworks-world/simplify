@@ -919,15 +919,21 @@ async function viewFinance(id) {
 
   for (let i = 0; i < projectArray.length; i++) {
     if (projectArray[i][0] == id) {
+
       let projectName = document.createElement("h5");
       projectName.setAttribute("class", "mt-2");
       projectName.setAttribute("class", "mb-2");
       projectName.innerHTML = "Project Name: " + projectArray[i][3] + "  ";
 
+      let clientName = document.createElement("h5");
+      clientName.setAttribute("class", "mt-2");
+      clientName.setAttribute("class", "mb-2");
+      clientName.innerHTML = "Client Name: " + projectArray[i][2] + "  ";
+
       let projectValue = document.createElement("h5");
       projectValue.setAttribute("class", "mt-2");
       projectValue.setAttribute("class", "mb-2");
-      projectValue.innerHTML = "Project Value: " + projectArray[i][7] + "  ";
+      projectValue.innerHTML = "Project Value: $" + projectArray[i][7] + "  ";
 
       let feesRate = document.createElement("h5");
       feesRate.setAttribute("class", "mt-2");
@@ -939,7 +945,7 @@ async function viewFinance(id) {
       let expectedRevenue = document.createElement("h5");
       expectedRevenue.setAttribute("class", "mt-2");
       expectedRevenue.setAttribute("class", "mb-2");
-      expectedRevenue.innerHTML = "ExpectedRevenue: " + projectArray[i][9] + "  ";
+      expectedRevenue.innerHTML = "ExpectedRevenue: ₹" + projectArray[i][9] + "  ";
 
       flag.appendChild(projectName);
       flag.appendChild(projectValue);
@@ -973,7 +979,7 @@ async function viewFinance(id) {
   let teamCost = document.createElement("h5");
   teamCost.setAttribute("class", "mt-2");
   teamCost.setAttribute("class", "mb-2");
-  teamCost.innerHTML = "Team Cost: " + totalCost + "  ";
+  teamCost.innerHTML = "Team Cost: ₹" + totalCost + "  ";
 
   let tcs = (totalCost / er) * 100;
 
