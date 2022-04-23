@@ -282,10 +282,10 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
     `  
                   </h5>
               </a>
-              <div class="col-2">   
               <button class="btn manageProjectAddTaskButton mr-3" id="` +
     projectId +
-    `" onclick="editProjectConfirm(id)">Edit Project</button>
+    `" onclick="editProjectConfirm(id)"><i class="fa fa-edit"></i></button>
+              <div class="col-2">   
               </div>
               <div class="col-3 manageProjectsToggle d-flex">
                   <h6 class="ml-4 ongoingText">
@@ -992,6 +992,9 @@ async function viewFinance(id) {
   modal.style.display = "block";
 }
 
+var clientName = undefined;
+var contractTypeSelect = undefined;
+
 async function editProjectConfirm(projectId) {
 
   let headerText = document.getElementById("modal-header-text");
@@ -1011,16 +1014,34 @@ async function editProjectConfirm(projectId) {
   let formDiv = document.createElement("div");
   formDiv.setAttribute("class", "form-group");
 
-  let projectName = document.createElement("label");
-  projectName.setAttribute("for", "projectName");
-  projectName.setAttribute("class", "mt-4");
-  projectName.innerHTML = "Project Name: ";
+  let exchangeRate = document.createElement("label");
+  exchangeRate.setAttribute("for", "exchangeRate");
+  exchangeRate.setAttribute("class", "mt-4");
+  exchangeRate.innerHTML = "Exchange Rate: ";
 
-  let projectNameInput = document.createElement("input");
-  projectNameInput.setAttribute("type", "text");
-  projectNameInput.setAttribute("class", "form-control");
-  projectNameInput.setAttribute("id", "projectName");
-  projectNameInput.setAttribute("placeholder", "Enter Project Name");
+  let exchangeRateInput = document.createElement("input");
+  exchangeRateInput.setAttribute("type", "text");
+  exchangeRateInput.setAttribute("class", "form-control");
+  exchangeRateInput.setAttribute("id", "exchangeRate");
+  exchangeRateInput.setAttribute("placeholder", "Enter Exchange Rate");
+
+
+  let feesRate = document.createElement("label");
+  feesRate.setAttribute("for", "feesRate");
+  feesRate.setAttribute("class", "mt-4");
+  feesRate.innerHTML = "Fees Rate: ";
+
+  let feesRateCalculator = document.createElement("button");
+  feesRateCalculator.setAttribute("class", "btn calculatorButton");
+  feesRateCalculator.setAttribute("onclick", "feesRateCalculation()");
+  feesRateCalculator.innerHTML = "<i class='bi bi-calculator'></i>";
+
+  let feesRateInput = document.createElement("input");
+  feesRateInput.setAttribute("type", "text");
+  feesRateInput.setAttribute("class", "form-control");
+  feesRateInput.setAttribute("id", "feesRate");
+  feesRateInput.setAttribute("placeholder", "Enter Fees Rate");
+
 
   let projectValue = document.createElement("label");
   projectValue.setAttribute("for", "projectValue");
@@ -1033,17 +1054,36 @@ async function editProjectConfirm(projectId) {
   projectValueInput.setAttribute("id", "projectValue");
   projectValueInput.setAttribute("placeholder", "Enter Project Value");
 
+  let expectedRevenue = document.createElement("label");
+  expectedRevenue.setAttribute("for", "expectedRevenue");
+  expectedRevenue.setAttribute("class", "mt-4");
+  expectedRevenue.innerHTML = "Expected Revenue: ";
+
+  let expectedRevenueInput = document.createElement("input");
+  expectedRevenueInput.setAttribute("type", "text");
+  expectedRevenueInput.setAttribute("class", "form-control");
+  expectedRevenueInput.setAttribute("id", "expectedRevenue");
+  expectedRevenueInput.setAttribute("placeholder", "Enter Expected Revenue");
+
   for (let i = 0; i < projectArray.length; i++) {
     if (projectArray[i][0] == parseInt(projectId)) {
-      projectNameInput.value = projectArray[i][3];
+      clientName = projectArray[i][2];
+      contractTypeSelect = projectArray[i][6];
       projectValueInput.value = projectArray[i][7];
+      feesRateInput.value = projectArray[i][8];
+      expectedRevenueInput.value = projectArray[i][9];
     }
   }
 
-  formDiv.appendChild(projectName);
-  formDiv.appendChild(projectNameInput);
   formDiv.appendChild(projectValue);
   formDiv.appendChild(projectValueInput);
+  formDiv.appendChild(exchangeRate);
+  formDiv.appendChild(exchangeRateInput);
+  formDiv.appendChild(feesRate);
+  formDiv.appendChild(feesRateCalculator);
+  formDiv.appendChild(feesRateInput);
+  formDiv.appendChild(expectedRevenue);
+  formDiv.appendChild(expectedRevenueInput);
 
   flag.appendChild(formDiv);
 
@@ -1061,8 +1101,10 @@ async function editProjectConfirm(projectId) {
 
 async function editProject(projectId) {
 
-  let projectName = document.getElementById("projectName").value;
+
   let projectValue = document.getElementById("projectValue").value;
+  let feesRate = document.getElementById("feesRate").value;
+  let expectedRevenue = document.getElementById("expectedRevenue").value;
 
   let params = {
     spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
@@ -1074,8 +1116,9 @@ async function editProject(projectId) {
 
   for (let i = 0; i < projectArray.length; i++) {
     if (projectArray[i][0] == projectId) {
-      projectArray[i][3] = projectName;
       projectArray[i][7] = projectValue;
+      projectArray[i][8] = feesRate;
+      projectArray[i][9] = expectedRevenue;
     }
   }
 
@@ -1099,6 +1142,90 @@ async function editProject(projectId) {
   var modal = document.getElementById("myModal");
   modal.style.display = "none";
 
+}
+
+async function feesRateCalculation() {
+  let feeRate = 0.0;
+  var params1 = {
+    spreadsheetId: '139zjaiJ1Fm6BG3XX3Pego_fB8n1cwF8aCKIJFY57g0w',
+    range: 'Fees Rate!A4:Z1000',
+  };
+  var request1 = await gapi.client.sheets.spreadsheets.values.get(params1);
+  var regularContractFeesRate = request1.result.values;
+
+  var params2 = {
+    spreadsheetId: '139zjaiJ1Fm6BG3XX3Pego_fB8n1cwF8aCKIJFY57g0w',
+    range: 'Fees Rate!E3',
+  };
+  var request2 = await gapi.client.sheets.spreadsheets.values.get(params2);
+  var directContractFeesRate = request2.result.values;
+
+  // var clientName = document.getElementById("clientName").value;
+  var projectValue = document.getElementById("projectValue").value;
+  if (projectValue === "")
+    projectValue = "0";
+  // var contractTypeSelect = document.getElementById("contractTypeSelect").value;
+
+  var totalProjectValue = 0;
+  var params3 = {
+    spreadsheetId: '1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA',
+    range: 'Projects!A2:Z1000',
+  };
+
+  var request3 = await gapi.client.sheets.spreadsheets.values.get(params3);
+  var projectArray = [];
+  if (request3.result.values != undefined)
+    projectArray = request3.result.values;
+
+  for (var i = 0; i < projectArray.length; i++) {
+    if (projectArray[i][2] == clientName) {
+      totalProjectValue += parseInt(projectArray[i][7]);
+    }
+  }
+  var totalProjectValueBofore = 0;
+  totalProjectValueBofore += totalProjectValue;
+  totalProjectValue += parseInt(projectValue);
+  var totalProjectSum = 0.0;
+  var first = 0;
+  var last = 0;
+  if (contractTypeSelect === "Regular Contract") {
+    var i = 0;
+    while (totalProjectValueBofore >= parseInt(regularContractFeesRate[i][1])) {
+      i++;
+    }
+    first = i;
+    regularContractFeesRate[i][0] = totalProjectValueBofore;
+
+    while (totalProjectValue > regularContractFeesRate[i][1]) {
+      i++;
+    }
+    regularContractFeesRate[i][1] = totalProjectValue;
+    last = i;
+
+    while (first <= last) {
+      totalProjectSum += (parseInt(regularContractFeesRate[first][1]) - parseInt(regularContractFeesRate[first][0])) * parseInt(regularContractFeesRate[first][2]) / 100.0;
+      first++;
+    }
+    console.log(totalProjectSum);
+
+    var val = (totalProjectSum / (projectValue)) * 100.0;
+    feeRate += val;
+    document.getElementById("feesRate").value = val.toFixed(1) + "%";
+  } else if (contractTypeSelect === "Direct Contract") {
+    document.getElementById("feesRate").value = (directContractFeesRate[0][0]);
+    feeRate = parseFloat(directContractFeesRate[0][0]);
+  }
+
+  let projValue = document.getElementById("projectValue").value;
+  projValue = parseInt(projValue);
+  let exchangeRate = document.getElementById("exchangeRate").value;
+  exchangeRate = parseInt(exchangeRate);
+
+  let num = 0.0;
+  num += (projValue * (100.0 - feeRate) * exchangeRate) / 100.0;
+  console.log(num);
+
+  document.getElementById("expectedRevenue").value = num;
 }
 
 async function deleteTask(id) {
