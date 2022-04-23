@@ -334,12 +334,12 @@ async function updateTracker(id) {
                 ArrayOne.push(deliveryArray[j][15]);
                 ArrayOne.push(deliveryArray[j][16]);
 
-                ArrayOne.push(array[i][3]);
-                ArrayOne.push(array[i][4]);
-                ArrayOne.push(array[i][5]);
-                ArrayOne.push(array[i][6]);
-                ArrayOne.push(array[i][7]);
-              
+                // ArrayOne.push(array[i][3]);
+                // ArrayOne.push(array[i][4]);
+                // ArrayOne.push(array[i][5]);
+                // ArrayOne.push(array[i][6]);
+                // ArrayOne.push(array[i][7]);
+
                 ArrayTwo.push(ArrayOne);
 
                 let rangeStr = "Delivery!O";
@@ -569,7 +569,7 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
             let feedbackDiv = document.createElement("div");
             feedbackDiv.setAttribute("class", "feedback");
-            
+
             let feedbackContent = document.createElement("h6");
             feedbackContent.innerHTML += "Feedback";
             feedbackDiv.appendChild(feedbackContent);
@@ -685,7 +685,7 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
                 let feedbackContent1 = document.createElement("input");
                 feedbackContent1.setAttribute("type", "text");
-                
+
                 feedbackContent1.setAttribute("class", "form-control mt-1 mr-2");
                 feedbackContent1.setAttribute("style", "width:18%");
                 feedbackContent1.setAttribute("placeholder", "S");
@@ -795,6 +795,7 @@ async function savePayouts(id, count) {
         }
 
         let task = project[k].getElementsByClassName("Row");
+        var inputs;
 
         for (let j = 0; j < task.length; j++) {
             let temp = [];
@@ -816,6 +817,10 @@ async function savePayouts(id, count) {
             temp.push(t[3].innerText);
 
             let i = task[j].getElementsByTagName("input");
+            inputs = i;
+
+            // console.log("i", i);
+
             if (i[0] != undefined)
                 temp.push(i[0].value);
 
@@ -824,10 +829,19 @@ async function savePayouts(id, count) {
 
             temp.push(t[4].innerText);
 
-            if (i[2] != undefined)
-                temp.push(i[2].value);
+            // if (i[2] != undefined)
+            //     temp.push(i[2].value);
+
+            // if (i[3] != undefined)
+            //     temp.push(i[3].value);
+
+            // if (i[4] != undefined)
+            //     temp.push(i[4].value);
+
 
             temp.push(paidStatusToggle);
+
+            // console.log("temp", temp);
 
             array.push(temp);
         }
@@ -848,14 +862,37 @@ async function savePayouts(id, count) {
                     array[i][7] = "";
                 }
                 ArrayOne.push(array[i][7]);
-                ArrayOne.push(array[i][9]);
+                // ArrayOne.push(array[i][9]);
                 ArrayOne.push(array[i][8]);
+
+                console.log("array one", ArrayOne)
+
+                ArrayOne.push(undefined);
+                ArrayOne.push(undefined);
+                ArrayOne.push(undefined);
+                ArrayOne.push(undefined);
+
+                if (inputs[2] != undefined)
+                    ArrayOne.push(inputs[2].value);
+                
+                if (inputs[3] != undefined)
+                    ArrayOne.push(inputs[3].value);
+                
+                if (inputs[4] != undefined)
+                    ArrayOne.push(inputs[4].value);
+                
+                if (inputs[5] != undefined)
+                    ArrayOne.push(inputs[5].value);
+                
+                if (inputs[6] != undefined)
+                    ArrayOne.push(inputs[6].value);
+
                 ArrayTwo.push(ArrayOne);
 
                 let rangeStr = "Delivery!J";
                 let num = j + 2;
                 rangeStr += num;
-                rangeStr += ":N";
+                rangeStr += ":V";
                 rangeStr += num;
 
                 var params = {
