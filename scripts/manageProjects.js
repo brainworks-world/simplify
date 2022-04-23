@@ -1,6 +1,8 @@
 let teamArray = [];
 let projectArray = [];
 let deliveryArray = [];
+var deleteProjectId;
+
 async function getAllSheets() {
   var params = {
     spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
@@ -140,7 +142,7 @@ async function addNewTask(
   outerDiv.appendChild(variablePayDiv);
   outerDiv.appendChild(checkBoxDiv);
   outerDiv.appendChild(PayDiv);
-  outerDiv.appendChild(deleteButton);
+
 
   cardbody[0].appendChild(outerDiv);
 
@@ -217,6 +219,12 @@ async function addNewTask(
   variablePayInput.setAttribute("value", variablePay);
   if (taskStatus === "Completed") {
     checkBoxinput.setAttribute("checked", true);
+    let deleteButton = document.createElement("button");
+    deleteButton.setAttribute("class", "btn deleteButton  fieldClass");
+    deleteButton.setAttribute("id", "delete" + string);
+    outerDiv.appendChild(deleteButton);
+  } else {
+    outerDiv.appendChild(deleteButton);
   }
   selectOption[countTask - 1].setAttribute("value", teamMember);
 
@@ -270,7 +278,8 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
     count +
     `">
               <a class="title col-7">
-                  <h5 class="mb-0 projectTitle" data-toggle="collapse" data-target="#collapse` +
+                  <h5 class="mb-0 projectTitle" data-toggle="collapse" id="` + projectId + `"
+                  data-target="#collapse` +
     count +
     `">
                   ` +
@@ -780,6 +789,12 @@ async function saveProjectTasks() {
       );
     }
   }
+
+  // updateSheet();
+  setTimeout(function () {
+    location.reload();
+  }, 2000);
+
 }
 
 async function makeApiCallManageProjects() {
@@ -879,7 +894,7 @@ async function updateSheet() {
     str += str1;
     str += num;
 
-    console.log(str);
+    console.log("here is the str in the update function", str);
 
     var params1 = {
       spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
@@ -1235,15 +1250,14 @@ async function feesRateCalculation() {
 }
 
 async function deleteTask(id) {
+
   let divElement = id.parentElement;
-  console.log(divElement);
 
   let taskId = divElement.getElementsByTagName("h6");
   let taskName = divElement.getElementsByClassName("taskNameClass");
 
   taskId = taskId[0].innerText;
   taskName = taskName[0].value;
-
   var params1 = {
     spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
     // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
@@ -1271,7 +1285,7 @@ async function deleteTask(id) {
       str += str1;
       str += num;
 
-      console.log(str);
+      // console.log("here is the string in the update functions: ", str);
 
       var params1 = {
         spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
@@ -1285,8 +1299,48 @@ async function deleteTask(id) {
         params1,
         clearValuesRequestBody
       );
+
     }
   }
+
+  var params2 = {
+    spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
+    // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
+    range: "Delivery!A2:Z1000",
+  };
+
+
+
+
+  var request3 = await gapi.client.sheets.spreadsheets.values.get(params2);
+
+  console.log("request3: ", request3);
+
+  let dArray = request3.result.values;
+
+  crnt = 1;
+  for (let i = 0; i < dArray.length; i++) {
+    // console.log(dArray[i], deleteProjectId)
+    if (dArray[i][0] == deleteProjectId) {
+      console.log("here", dArray[i]);
+      dArray[i][2] = crnt;
+      crnt += 1;
+    }
+  }
+
+  var params2 = {
+    spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
+    // spreadsheetId: '12qJIZIOTvOc8KMaxu90_VHbcwDqqpDAMP-Ec8aOnGIE',
+    range: "Delivery!A2:Z1000",
+    valueInputOption: "USER_ENTERED",
+  }
+
+  var valueRangeBody = {
+    "majorDimension": "ROWS",
+    "values": dArray,
+  };
+
+  var request2 = await gapi.client.sheets.spreadsheets.values.update(params2, valueRangeBody);
 
   updateSheet();
 
@@ -1349,6 +1403,7 @@ function confirmDelete(id) {
   let projectElem = divElement.parentElement.parentElement.parentElement;
 
   projectElem = projectElem.getElementsByClassName("title");
+
   projectElem = projectElem[0].getElementsByTagName("h5");
 
   projectElem = projectElem[0].innerText;
@@ -1365,6 +1420,10 @@ function confirmDelete(id) {
     "' from '" +
     projectElem +
     "' ?";
+
+  // extract the project id from projectElem
+  let projectId = parseInt(projectElem.split(":")[0]);
+  deleteProjectId = projectId;
 
   let deleteButton = document.createElement("button");
   deleteButton.setAttribute("class", "btn btn-primary ml-5 mt-2 mb-2");
