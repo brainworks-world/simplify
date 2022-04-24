@@ -26,14 +26,14 @@ body {
 }
 
 .newProjectSaveButton {
-    background-color: #007bff;
+    background-color: #921c30;
     color: white;
     float: right;
     margin-right: 5px;
 }
 
 .newProjectSaveManage {
-    background-color: #007bff;
+    background-color: #921c30;
     color: white;
     float: right;
 }
@@ -48,7 +48,7 @@ body {
  
 .datepicker table tr td.active.active, 
 .datepicker table tr td.active.highlighted.active {
-   background-color: #007bff;
+   background-color: #921c30;
 }
 
 .datepicker table tr td.today {

@@ -28,11 +28,11 @@ hr {
 }
 
 .dot {
-    color: #007bff;
+    color: #921c30;
 }
 
 .signinButton {
-    background-color: #007bff;
+    background-color: #921c30;
     color: white;
     display: inline;
     margin-right: 10px;
@@ -41,7 +41,7 @@ hr {
 }
 
 .signoutButton {
-    background-color: #007bff;
+    background-color: #921c30;
     color: white;
     display: inline;
     width: auto;
@@ -102,7 +102,7 @@ a:hover {
 }
 
 .homeCard:hover {
-    color: #007bff;
+    color: #921c30;
     transition: all 0.2s ease-out;
     box-shadow: 0px 8px 12px rgba(38, 38, 38, 0.2);
     top: -8px;
@@ -121,16 +121,16 @@ a:hover {
 }
 
 nav .navbar-nav li a.active{
-    color: #007bff !important;
+    color: #921c30 !important;
 }
 
 nav .navbar-nav li a:hover{
-    color: #007bff !important;
+    color: #921c30 !important;
 }
 
 .datepicker table tr td.active.active, 
 .datepicker table tr td.active.highlighted.active {
-   background-color: #007bff;
+   background-color: #921c30;
 }
 
 .datepicker table tr td.today {
@@ -177,6 +177,6 @@ nav .navbar-nav li a:hover{
 }
 
 .autocomplete-active {
-    background-color: #007bff !important; 
+    background-color: #921c30 !important; 
     color: #ffffff; 
 }

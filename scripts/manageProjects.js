@@ -1111,8 +1111,9 @@ async function editProjectConfirm(projectId) {
 
   let updateButton = document.createElement("button");
   updateButton.setAttribute("class", "btn btn-primary mt-2 mb-4");
+
   updateButton.setAttribute("onclick", "editProject(" + projectId + ")");
-  updateButton.setAttribute("style", "display: inline");
+  updateButton.setAttribute("style", "display: inline; background-color:#921c30;");
   updateButton.innerHTML = "update";
 
   flag.appendChild(updateButton);

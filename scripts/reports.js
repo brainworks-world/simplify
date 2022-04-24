@@ -16,17 +16,27 @@ function displayYearlyView(year, projects, delivery) {
       (month <= 12 && month >= 4 && year == date[2]) ||
       (month <= 3 && month >= 1 && year + 1 == date[2])
     ) {
+      value=parseFloat(value);
       value += parseFloat(projects[i][7]);
+      
+      
+      
+      value=value.toFixed(1);
       revenue += parseFloat(projects[i][9]);
+      revenue=parseFloat(revenue);
+      revenue=revenue.toFixed(1);
 
       for (let j = 0; j < delivery.length; j++) {
         console.log(delivery[j]);
         if (delivery[j][0] == projects[i][0]) {
           if (delivery[j][11] != "") cost += parseFloat(delivery[j][11]);
           else
+            
             cost +=
               parseFloat(delivery[j][6]) +
               (parseFloat(delivery[j][6]) * parseFloat(delivery[j][7])) / 100.0;
+            cost=parseFloat(cost);
+            cost=cost.toFixed(1);
         }
       }
     }
@@ -49,8 +59,11 @@ function displayYearlyView(year, projects, delivery) {
   str += year;
 
   finYear.innerHTML = str;
+  value=parseFloat(value);
   projectsValue.innerHTML = value.toFixed(1);
+  revenue=parseFloat(revenue);
   projectRevenue.innerHTML = revenue.toFixed(1);
+  cost=parseFloat(cost);
   projectCost.innerHTML = cost.toFixed(1);
   profit.innerHTML = (revenue - cost).toFixed(1);
 
@@ -404,7 +417,11 @@ function displayProjects(arr, deliveryArray) {
   projectName.innerHTML = arr[3];
   value.innerHTML = arr[7];
   feesRate.innerHTML = arr[8];
+  
   revenue.innerHTML = arr[9];
+  // revenue=parseFloat(revenue);
+  // revenue=revenue.toFixed(1);
+  
 
   let totalCost = 0.0;
 
@@ -418,8 +435,10 @@ function displayProjects(arr, deliveryArray) {
           100.0;
     }
   }
-
+  totalCost=totalCost.toFixed(1);
   cost.innerHTML = totalCost;
+  
+  
   profit.innerHTML = parseFloat(arr[9]) - totalCost;
   let temp = 0.0;
   temp += ((parseFloat(arr[9]) - totalCost) / parseFloat(arr[9])) * 100.0;
