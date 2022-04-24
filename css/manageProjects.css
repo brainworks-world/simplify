@@ -6,7 +6,7 @@
 }
 
 .manageProjectSaveButton {
-    background-color: #007bff;
+    background-color: #921c30;
     color: white;
     width: 150px;
     float: right;
@@ -84,11 +84,11 @@ input:not(:checked) + .slider:before {
 }
 
 input:checked + .slider {
-    background-color: #007bff;
+    background-color: #921c30;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #007bff;
+    box-shadow: 0 0 1px #921c30;
 }
 
 input:checked + .slider:before {
@@ -110,7 +110,7 @@ input:checked + .slider:before {
 }
 
 .manageProjectAddTaskButton {
-    background-color: #007bff;
+    background-color: #921c30;
     color: white;
     width: 250px;
 }
@@ -193,7 +193,7 @@ input:checked + .slider:before {
   
 .modal-header {
     padding: 2px 16px;
-    background-color: #007bff;
+    background-color: #921c30;
     color: white;
 }
   
