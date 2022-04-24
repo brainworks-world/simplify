@@ -484,7 +484,7 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
     let projectCount = 0;
     for (let i = 0; i < projectsArray.length; i++) {
 
-        let addTaskArray = [];
+        var addTaskArray = [];
         for (let j = 0; j < deliveryArray.length; j++) {
 
             if (deliveryArray[j][4] == arr[0] && deliveryArray[j][0] == projectsArray[i][0] && deliveryArray[j][8] == "Completed" && (deliveryArray[j][14] != "Updated")) {
@@ -499,9 +499,21 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 dummyArray.push(deliveryArray[j][11]);
                 dummyArray.push(deliveryArray[j][13]);
 
+                dummyArray.push(deliveryArray[j][14]);
+                dummyArray.push(deliveryArray[j][15]);
+                dummyArray.push(deliveryArray[j][16]);
+                dummyArray.push(deliveryArray[j][17]);
+                dummyArray.push(deliveryArray[j][18]);
+                dummyArray.push(deliveryArray[j][19]);
+                dummyArray.push(deliveryArray[j][20]);
+                dummyArray.push(deliveryArray[j][21]);
+                dummyArray.push(deliveryArray[j][22]);
+
                 addTaskArray.push(dummyArray);
             }
         }
+
+        console.log("addTaskArray", addTaskArray);
 
         if (addTaskArray != "") {
             projectCount++;
@@ -592,6 +604,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
             for (let j = 0; j < addTaskArray.length; j++) {
                 taskCount++;
+
+                // console.log("addTaskArray[j]", addTaskArray[j]);
 
                 let taskDiv = document.createElement("div");
                 taskDiv.setAttribute("class", "row align-items-center mt-1 Row");
@@ -690,8 +704,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 feedbackContent1.setAttribute("style", "width:18%");
                 feedbackContent1.setAttribute("placeholder", "S");
                 feedbackContent1.setAttribute("id", "feedbackS" + count + projectsCount + tasksCount);
-                if (addTaskArray[j][17] != undefined)
-                    feedbackContent1.value = addTaskArray[j][17];
+                if (addTaskArray[j][11] != undefined)
+                    feedbackContent1.value = addTaskArray[j][11];
 
                 let feedbackContent2 = document.createElement("input");
                 feedbackContent2.setAttribute("type", "text");
@@ -699,8 +713,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 feedbackContent2.setAttribute("style", "width:18%");
                 feedbackContent2.setAttribute("placeholder", "Q");
                 feedbackContent2.setAttribute("id", "feedbackQ" + count + projectsCount + tasksCount);
-                if (addTaskArray[j][18] != undefined)
-                    feedbackContent2.value = addTaskArray[j][18];
+                if (addTaskArray[j][12] != undefined)
+                    feedbackContent2.value = addTaskArray[j][12];
 
                 let feedbackContent3 = document.createElement("input");
                 feedbackContent3.setAttribute("type", "text");
@@ -708,8 +722,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 feedbackContent3.setAttribute("style", "width:18%");
                 feedbackContent3.setAttribute("placeholder", "C");
                 feedbackContent3.setAttribute("id", "feedbackC" + count + projectsCount + tasksCount);
-                if (addTaskArray[j][19] != undefined)
-                    feedbackContent3.value = addTaskArray[j][19];
+                if (addTaskArray[j][13] != undefined)
+                    feedbackContent3.value = addTaskArray[j][13];
 
                 let feedbackContent4 = document.createElement("input");
                 feedbackContent4.setAttribute("type", "text");
@@ -717,8 +731,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 feedbackContent4.setAttribute("style", "width:18%");
                 feedbackContent4.setAttribute("placeholder", "O");
                 feedbackContent4.setAttribute("id", "feedbackO" + count + projectsCount + tasksCount);
-                if (addTaskArray[j][20] != undefined)
-                    feedbackContent4.value = addTaskArray[j][20];
+                if (addTaskArray[j][14] != undefined)
+                    feedbackContent4.value = addTaskArray[j][14];
 
                 let feedbackContent5 = document.createElement("input");
                 feedbackContent5.setAttribute("type", "text");
@@ -726,8 +740,8 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 feedbackContent5.setAttribute("style", "width:18%");
                 feedbackContent5.setAttribute("placeholder", "D");
                 feedbackContent5.setAttribute("id", "feedbackD" + count + projectsCount + tasksCount);
-                if (addTaskArray[j][21] != undefined)
-                    feedbackContent5.value = addTaskArray[j][21];
+                if (addTaskArray[j][15] != undefined)
+                    feedbackContent5.value = addTaskArray[j][15];
 
                 // if (addTaskArray[j][7] != undefined)
                 //     feedbackContent.selectedIndex = addTaskArray[j][7];
@@ -865,7 +879,7 @@ async function savePayouts(id, count) {
                 // ArrayOne.push(array[i][9]);
                 ArrayOne.push(array[i][8]);
 
-                console.log("array one", ArrayOne)
+                console.log("array one", inputs[2])
 
                 ArrayOne.push(undefined);
                 ArrayOne.push(undefined);
@@ -874,16 +888,16 @@ async function savePayouts(id, count) {
 
                 if (inputs[2] != undefined)
                     ArrayOne.push(inputs[2].value);
-                
+
                 if (inputs[3] != undefined)
                     ArrayOne.push(inputs[3].value);
-                
+
                 if (inputs[4] != undefined)
                     ArrayOne.push(inputs[4].value);
-                
+
                 if (inputs[5] != undefined)
                     ArrayOne.push(inputs[5].value);
-                
+
                 if (inputs[6] != undefined)
                     ArrayOne.push(inputs[6].value);
 
@@ -928,6 +942,8 @@ async function makeApiCallPayouts() {
 
     var request1 = await gapi.client.sheets.spreadsheets.values.get(params1);
     let deliveryArray = request1.result.values;
+
+    // console.log("something", deliveryArray)
 
     var params2 = {
         spreadsheetId: '1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA',
