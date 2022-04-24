@@ -786,6 +786,7 @@ async function savePayouts(id, count) {
 
     let card = obj.parentElement.parentElement.parentElement;
     let array = [];
+    let inputs = [];
 
     let project = card.getElementsByClassName("project");
 
@@ -809,7 +810,6 @@ async function savePayouts(id, count) {
         }
 
         let task = project[k].getElementsByClassName("Row");
-        var inputs;
 
         for (let j = 0; j < task.length; j++) {
             let temp = [];
@@ -831,7 +831,7 @@ async function savePayouts(id, count) {
             temp.push(t[3].innerText);
 
             let i = task[j].getElementsByTagName("input");
-            inputs = i;
+            inputs.push(i);
 
             // console.log("i", i);
 
@@ -878,28 +878,30 @@ async function savePayouts(id, count) {
                 ArrayOne.push(array[i][7]);
                 // ArrayOne.push(array[i][9]);
                 ArrayOne.push(array[i][8]);
+                
+                var thisInput = inputs[i];
 
-                console.log("array one", inputs[2])
+                console.log("array one", thisInput[2])
 
                 ArrayOne.push(undefined);
                 ArrayOne.push(undefined);
                 ArrayOne.push(undefined);
                 ArrayOne.push(undefined);
 
-                if (inputs[2] != undefined)
-                    ArrayOne.push(inputs[2].value);
+                if (thisInput[2] != undefined)
+                    ArrayOne.push(thisInput[2].value);
 
-                if (inputs[3] != undefined)
-                    ArrayOne.push(inputs[3].value);
+                if (thisInput[3] != undefined)
+                    ArrayOne.push(thisInput[3].value);
 
-                if (inputs[4] != undefined)
-                    ArrayOne.push(inputs[4].value);
+                if (thisInput[4] != undefined)
+                    ArrayOne.push(thisInput[4].value);
 
-                if (inputs[5] != undefined)
-                    ArrayOne.push(inputs[5].value);
+                if (thisInput[5] != undefined)
+                    ArrayOne.push(thisInput[5].value);
 
-                if (inputs[6] != undefined)
-                    ArrayOne.push(inputs[6].value);
+                if (thisInput[6] != undefined)
+                    ArrayOne.push(thisInput[6].value);
 
                 ArrayTwo.push(ArrayOne);
 
