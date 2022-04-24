@@ -23,7 +23,6 @@ async function getAllSheets() {
 
 let idArray = [];
 async function addNewTask(
-  projectId,
   id,
   Id = "",
   taskName = "",
@@ -32,10 +31,12 @@ async function addNewTask(
   fixedPay = "",
   variablePay = "",
   taskStatus = "",
-  payStatus = ""
+  payStatus = "",
+  projectId = "",
 ) {
   idArray[id - 1]++;
 
+  console.log("ID", id)
   let accordion = document.getElementById("collapse" + id);
   let cardbody = accordion.getElementsByClassName("card-body");
 
@@ -269,6 +270,8 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
   idArray.push(0);
   let outerDiv = document.getElementById("outerDiv");
 
+  // console.log("count", count)
+
   outerDiv.innerHTML +=
     `<div id="accordion` +
     count +
@@ -366,7 +369,7 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
 
   if (projectName == "ProjectBlank") {
     let elem = document.getElementById("accordion" + count);
-    addNewTask(projectId, count, "", "", "", "", "", "", "", "");
+    addNewTask(count, "", "", "", "", "", "", "", "", projectId);
     elem.style.visibility = "hidden";
   }
 
@@ -374,7 +377,6 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
     for (let i = 0; i < deliveryArray.length; i++) {
       if (deliveryArray[i][0] == projectId && projectId != 0) {
         addNewTask(
-          projectId,
           count,
           deliveryArray[i][2],
           deliveryArray[i][3],
@@ -383,7 +385,8 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
           deliveryArray[i][6],
           deliveryArray[i][7],
           deliveryArray[i][8],
-          deliveryArray[i][12]
+          deliveryArray[i][12],
+          projectId
         );
       }
     }
@@ -819,7 +822,7 @@ async function makeApiCallManageProjects() {
   deliveryArray = request1.result.values;
 
   idArray = [];
-  let count = 0;
+  var count = 0;
   for (let i = 0; i < projectArray.length + 1; i++) {
     if (i == projectArray.length) {
       count++;
@@ -1205,7 +1208,7 @@ async function feesRateCalculation() {
       totalProjectValue += parseInt(projectArray[i][7]);
     }
   }
-  totalProjectValue=totalProjectValue-projectValue;
+  totalProjectValue = totalProjectValue - projectValue;
   var totalProjectValueBofore = 0;
   totalProjectValueBofore += totalProjectValue;
   totalProjectValue += parseInt(projectValue);
