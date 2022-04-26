@@ -270,7 +270,7 @@ function makeProject(projectId, clientName, projectName, count, deliveryArray) {
   idArray.push(0);
   let outerDiv = document.getElementById("outerDiv");
 
-  // console.log("count", count)
+  console.log("count", count)
 
   outerDiv.innerHTML +=
     `<div id="accordion` +
@@ -622,7 +622,7 @@ async function saveProjectTasks() {
           temp.push("");
           data.push(temp);
 
-          console.log("false");
+          console.log("false", data);
 
           var params = {
             spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
@@ -793,10 +793,10 @@ async function saveProjectTasks() {
     }
   }
 
-  // updateSheet();
-  setTimeout(function () {
-    location.reload();
-  }, 2000);
+  updateSheet();
+  // setTimeout(function () {
+  //   location.reload();
+  // }, 1000);
 
 }
 
@@ -912,6 +912,11 @@ async function updateSheet() {
       clearValuesRequestBody
     );
   }
+
+  setTimeout(function () {
+    location.reload();
+  }, 1000);
+
 }
 
 async function viewFinance(id) {
@@ -1291,7 +1296,7 @@ async function deleteTask(id) {
       str += str1;
       str += num;
 
-      // console.log("here is the string in the update functions: ", str);
+      console.log("here is the string in the update functions: ", str);
 
       var params1 = {
         spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
@@ -1328,11 +1333,13 @@ async function deleteTask(id) {
   for (let i = 0; i < dArray.length; i++) {
     // console.log(dArray[i], deleteProjectId)
     if (dArray[i][0] == deleteProjectId) {
-      console.log("here", dArray[i]);
+      console.log("here in d", dArray[i]);
       dArray[i][2] = crnt;
       crnt += 1;
     }
   }
+
+  console.log("dArray", dArray);
 
   var params2 = {
     spreadsheetId: "1FJGc-rKYqcrwDTPfdo4Hzx2Mpcou558aco9Sp1BKNLA",
@@ -1353,9 +1360,7 @@ async function deleteTask(id) {
   var modal = document.getElementById("myModal");
   modal.style.display = "none";
 
-  setTimeout(function () {
-    location.reload();
-  }, 1000);
+
 }
 
 var modal = document.getElementById("myModal");
