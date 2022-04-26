@@ -690,7 +690,7 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 if (totalPayoutsBoolean == true)
                     totalPayContent.innerText = addTaskArray[j][6];
                 else
-                    totalPayContent.innerText = "0";
+                    totalPayContent.innerText = '?';
                 totalPayDiv.appendChild(totalPayButton);
                 totalPayDiv.appendChild(totalPayContent);
 
@@ -878,7 +878,7 @@ async function savePayouts(id, count) {
                 ArrayOne.push(array[i][7]);
                 // ArrayOne.push(array[i][9]);
                 ArrayOne.push(array[i][8]);
-                
+
                 var thisInput = inputs[i];
 
                 console.log("array one", thisInput[2])
@@ -1118,16 +1118,22 @@ async function updatePayoutsSheet(id) {
 
         let num = 0.0;
         let pay = elem.getElementsByClassName("totalPay");
+
+        // console.log("pay", pay);
+
         for (let k = 0; k < pay.length; k++) {
-            if (pay[k].innerText == "0") {
-                num = 0;
+            // console.log("payk", pay[k].innerText);
+            if (pay[k].innerText == "?") {
+                num = NaN;
                 break;
             } else if (pay[k].innerText != "Total Payout") {
                 num += parseFloat(pay[k].innerText);
             }
         }
 
-        if (num == 0) {
+        console.log("Num", num, isNaN(num));
+
+        if (isNaN(num)) {
             toggleButton.checked = true;
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
@@ -1136,6 +1142,14 @@ async function updatePayoutsSheet(id) {
             span.setAttribute("id", id + "0");
             return;
         }
+
+        // if (num == 0) {
+
+        // }
+
+        // console.log("num", num)
+
+        // return;
 
         var today = new Date();
         var dd = today.getDate();
