@@ -19,14 +19,63 @@ async function totalPayCalculation(id) {
     }
 
     let fixedPay = document.getElementById("fixedPayActual" + id);
+
+    let feedbackContentS = document.getElementById("feedbackS" + id).value;
+    let feedbackContentQ = document.getElementById("feedbackQ" + id).value;
+    let feedbackContentC = document.getElementById("feedbackC" + id).value;
+    let feedbackContentO = document.getElementById("feedbackO" + id).value;
+    let feedbackContentD = document.getElementById("feedbackD" + id).value;
+
+    if (feedbackContentS == "" || feedbackContentQ == "" || feedbackContentC == "" || feedbackContentO == "" || feedbackContentD == "") {
+
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        var modalContent = document.getElementById("modalContent");
+        modalContent.innerText = "Please fill all the feedbacks";
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+        return;
+
+    }
+
     let variablePay = document.getElementById("variablePayActual" + id);
+
     let totalPay = document.getElementById("totalPayContent" + id);
 
-    let variablePayStr = variablePay.value;
-    if (variablePayStr[variablePayStr.length - 1] == "%")
-        variablePayStr.slice(0, -1);
+    let variablePayMax = document.getElementById("variablePayMax" + id);
+    variablePayMax = variablePayMax.innerText;
+
+    // remove the % sign
+    variablePayMax = variablePayMax.slice(0, -1);
+
+    // get average of all the feedback content
+    let average = (parseFloat(feedbackContentS) + parseFloat(feedbackContentQ) + parseFloat(feedbackContentC) + parseFloat(feedbackContentO) + parseFloat(feedbackContentD)) / 5.0;
+    let variablePayValue = average * parseFloat(variablePayMax) / 5;
+
+    console.log("average: ", average);
+
+    variablePay.value = variablePayValue.toFixed(2) + "%";
+
+    // let variablePayStr = variablePay.value;
+    // if (variablePayStr[variablePayStr.length - 1] == "%")
+    //     variablePayStr.slice(0, -1);
+
+    if (fixedPay.value == "") {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
+        var modalContent = document.getElementById("modalContent");
+        modalContent.innerText = "Please fill the fixed pay";
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+        return;
+    }
+
     let total = 0.0;
-    total = parseInt(fixedPay.value) + (0.01) * parseInt(fixedPay.value) * parseInt(variablePayStr);
+    total = parseInt(fixedPay.value) + (0.01) * parseInt(fixedPay.value) * parseFloat(variablePayValue.toFixed(2));
     totalPay.innerText = total;
 
     let totalPayoutsDiv = document.getElementsByClassName("totalPay");
@@ -663,9 +712,11 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
                 let variablePayContent = document.createElement("input");
                 variablePayContent.setAttribute("type", "text");
                 variablePayContent.setAttribute("class", "form-control");
-                variablePayContent.setAttribute("placeholder", "Variable Payout");
+                variablePayContent.setAttribute("placeholder", "Variable Payouts");
                 variablePayContent.setAttribute("id", "variablePayActual" + count + projectsCount + tasksCount);
-                variablePayContent.value = addTaskArray[j][5];
+                variablePayContent.setAttribute("disabled", "true");
+                // variablePayContent.value = addTaskArray[j][5];
+                variablePayContent.value = "?";
                 variablePayDiv.appendChild(variablePayContent);
 
                 let totalPayDiv = document.createElement("div");
@@ -1140,6 +1191,8 @@ async function updatePayoutsSheet(id) {
             let span = modal.getElementsByTagName("span");
             span = span[0];
             span.setAttribute("id", id + "0");
+            var modalContent = document.getElementById("modalContent");
+            modalContent.innerText = "Please calculate the total payout";
             return;
         }
 
