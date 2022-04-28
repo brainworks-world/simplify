@@ -18,6 +18,8 @@ async function totalPayCalculation(id) {
         id = s;
     }
 
+
+
     let fixedPay = document.getElementById("fixedPayActual" + id);
 
     let feedbackContentS = document.getElementById("feedbackS" + id).value;
@@ -144,9 +146,18 @@ async function totalPayCalculation(id) {
     }
 
     totalDue = totalDue.getElementsByTagName("h6");
+    let tds = totalDue[1];
     totalDue = totalDue[0];
 
     totalDue.innerText = "Total Due: Rs " + x;
+
+    let y = 0;
+
+    if (x > 30000) {
+        y = x / 100;
+    }
+
+    tds.innerText = "TDS: Rs " + y;
 }
 
 async function updateTracker(id) {
@@ -453,6 +464,16 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
     totalDueContent.innerHTML += "Total Due : Rs. 0";
     totalDueDiv.appendChild(totalDueContent);
 
+    let tdsDiv = document.createElement("div");
+    tdsDiv.setAttribute("class", "col-3 d-flex align-items-center pointerClass");
+    tdsDiv.setAttribute("data-toggle", "collapse");
+    tdsDiv.setAttribute("data-target", "#collapse" + count);
+    let tdsContent = document.createElement("h6");
+    tdsContent.setAttribute("class", "d-flex align-items-center");
+    tdsContent.setAttribute("id", "tds" + count);
+    tdsContent.innerHTML += "TDS : Rs. 0";
+    tdsDiv.appendChild(tdsContent);
+
     let saveDiv = document.createElement("div");
     saveDiv.setAttribute("class", "col-2");
     let saveButton = document.createElement("button");
@@ -512,6 +533,7 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
 
     cardHead.appendChild(title);
     cardHead.appendChild(totalDueDiv);
+    cardHead.appendChild(tdsDiv);
     cardHead.appendChild(saveDiv);
     cardHead.appendChild(paidStatusDiv);
     cardHead.appendChild(trackerDiv);
@@ -562,9 +584,12 @@ function createPayouts(arr, projectsArray, deliveryArray, count) {
             }
         }
 
-        console.log("addTaskArray", addTaskArray);
+
 
         if (addTaskArray != "") {
+
+            console.log("addTaskArray", addTaskArray);
+
             projectCount++;
 
             let outerDiv1 = document.createElement("div");
@@ -1108,6 +1133,7 @@ var span = document.getElementsByClassName("close")[0];
 function closeModal1(id) {
     let id1 = id.slice(0, -1);
     let toggle = document.getElementById(id1);
+    console.log("togller: " + toggle);
     toggle.checked = false;
 
     let calcButton = toggle.parentElement.parentElement.parentElement.parentElement;
